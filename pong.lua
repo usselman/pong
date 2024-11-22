@@ -2,8 +2,8 @@
 -- Author: Shirish Sarkar
 
 -- Game variables
-player = { x = 2, y = 64, speed = 2 }
-ai = { x = 125, y = 64, speed = 2, difficulty = 0.5 }
+player = { x = 2, y = 64, speed = 4 }
+ai = { x = 125, y = 64, speed = 4, difficulty = 0.5 }
 ball = { x = 64, y = 64, dx = 2, dy = 2 }
 score = 0
 
@@ -61,8 +61,8 @@ function _update()
         ball.dx = 2
         ball.dy = 2
         -- Reset AI difficulty
-        ai.difficulty = 0.5
-        ai.speed = 2
+        ai.difficulty = 0.25
+        ai.speed = 1
         score = 0
     end
 
@@ -74,12 +74,16 @@ end
 
 function _draw()
     cls()
+    -- Draw middle barrier
+    rectfill(65, 0, 65, 128, 1);
+    -- Draw screen barrier
+    rect(0, 0, 127, 127, 1);
     -- Draw player paddle
-    rectfill(player.x, player.y, player.x + 2, player.y + 16, 7)
+    rectfill(player.x, player.y, player.x + 2, player.y + 12, 12);
     -- Draw AI paddle
-    rectfill(ai.x, ai.y, ai.x + 2, ai.y + 16, 8)
+    rectfill(ai.x, ai.y, ai.x + 2, ai.y + 12, 8);
     -- Draw ball
-    rectfill(ball.x, ball.y, ball.x + 2, ball.y + 2, 10)
+    rectfill(ball.x, ball.y, ball.x + 2, ball.y + 2, 10);
     -- Draw score
-    print("Score: "..score, 54, 4, 7)
+    print("Score: "..score, 54, 4, 7);
 end
