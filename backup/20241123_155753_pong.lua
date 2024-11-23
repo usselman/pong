@@ -1,4 +1,7 @@
--- Valley Pong 
+pico-8 cartridge // http://www.pico-8.com
+version 41
+__lua__
+-- Pong Game for Pico-8
 -- Author: Shirish Sarkar
 
 -- Game variables
@@ -37,7 +40,6 @@ function _update()
     if ball.x < player.x + 2 and
        ball.y + 2 > player.y and
        ball.y < player.y + 16 then
-        sfx(0)
         ball.dx = -ball.dx
         ball.x = player.x + 2
         score += 1
@@ -50,14 +52,12 @@ function _update()
     if ball.x + 2 > ai.x and
        ball.y + 2 > ai.y and
        ball.y < ai.y + 16 then
-        sfx(1)
         ball.dx = -ball.dx
         ball.x = ai.x - 2
     end
 
     -- Ball out of bounds (player misses)
     if ball.x < 0 then
-        sfx(2);
         -- Reset ball
         ball.x = 64
         ball.y = 64
@@ -90,3 +90,6 @@ function _draw()
     -- Draw score
     print("Score: "..score, 54, 4, 7);
 end
+
+
+

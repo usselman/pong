@@ -8,4 +8,9 @@
  ....rrrrrrrrrrrrrg.......rrrrrgg....grrrrrrrrrrrrrrrrrrrrrrrrrrg.........grg....
  rrrrrigrg....grg........grg.....rg....rrrrgg.........rrrrrrrrrri.........rrrrrrr
  rrri.........gg.........g.........grrrrrrrrrri.iii.....iiii.........ii..gg......
+ ...g.....grrrrrig.........rrrrrrrgccc.c....c.....c.........cc.........c.........
+ c.........c.........crrrrtssss
+2024-11-23 15:58:23 /Users/shirishsarkar/_CODE/pong/pong.lua.p8
+ s..s.........srs.........srscc.....c.ccc
+2024-11-23 16:01:39 /Users/shirishsarkar/_CODE/pong/pong.p8
  
