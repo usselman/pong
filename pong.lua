@@ -1,4 +1,4 @@
--- Pong Game for Pico-8
+-- Valley Pong 
 -- Author: Shirish Sarkar
 
 -- Game variables

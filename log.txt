@@ -107,3 +107,4 @@
 [2878943] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.lua running_filename: /Users/shirishsarkar/_CODE/pong/pong.lua running_cart_lid: 
 [3147548] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.lua running_filename: /Users/shirishsarkar/_CODE/pong/pong.lua running_cart_lid: 
 [3161129] saving gif to: /Users/shirishsarkar/Desktop/pong_0.gif
+[4117464] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.lua running_filename: /Users/shirishsarkar/_CODE/pong/pong.lua running_cart_lid: 
