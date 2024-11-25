@@ -13,4 +13,10 @@
 2024-11-23 15:58:23 /Users/shirishsarkar/_CODE/pong/pong.lua.p8
  s..s.........srs.........srscc.....c.ccc
 2024-11-23 16:01:39 /Users/shirishsarkar/_CODE/pong/pong.p8
+ rrctssssrssssssss..srrsssssssrrrrrrrrssssssss...rrsssssssrrrrrscc........mrrrrrr
+ rrm.........m.........m.
+2024-11-24 23:07:18 /Users/shirishsarkar/_CODE/pong/pong.lua
+ ri.........i.........ccccc...c
+2024-11-24 23:11:28 /Users/shirishsarkar/_CODE/pong/pong.p8
+ rrrim.........mm........m.........mm........mrrrrrrrrrrrrrrrrrr_rrrrrrrrrrr_rrrr
  
