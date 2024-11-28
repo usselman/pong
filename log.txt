@@ -13,7 +13,7 @@
 [000000]     08 blit_method 0  // 0 auto  1 software (slower but sometimes more reliable)  2 hardware (can do filtered scaling) 
 [000000]     09 foreground_sleep_ms 2 // number of milliseconds to sleep each frame. Try 10 to conserve battery power
 [000000]     10 background_sleep_ms 10 // number of milliseconds to sleep each frame when running in the background
-[000000]     11 sessions 4 // number of times program has been run
+[000000]     11 sessions 7 // number of times program has been run
 [000000]     12 rmb_key 0 // 0 for none  226 for LALT
 [000000]     13 desktop_path 
 [000000]     14 read_controllers_in_background 0
@@ -47,42 +47,54 @@
 [000000]     42 transform_screen 0
 [000000]     43 gfx_grid_lines 0
 [000000]   
-[000000]   codo_system_init
-[000598]   Compiled against SDL version: 2.0.12
-[000598]   Linked against SDL version:   2.0.12
-[000598]   Current video driver: cocoa
-[000598]   codo_reset_timer
-[000598]   codo_gui_init
-[000598]   codo_keys_init
-[000598]   codo_text_init
-[000599]   codo_video_init
-[000599]   codo_mouse_init
-[000599]   codo_joystick_init
-[000599]   Reading controller mappings: /Users/shirishsarkar/_CODE/pong/sdl_controllers.txt
-[000600]   searching for joysticks
-[000600]     found 0 joysticks
-[000600]   ok
-[000600] ok
-[000613] codo_load_pod: /Applications/PICO-8.app/Contents/MacOS/pico8.dat ok 
-[000617] codo_set_screen 128 128 8 100
-[000617]  window size: 640 540
-[000676]   setting filter to nearest (screen_mode 0  back page width: 128)
+[000001]   codo_system_init
+[000450]   Compiled against SDL version: 2.0.12
+[000450]   Linked against SDL version:   2.0.12
+[000450]   Current video driver: cocoa
+[000450]   codo_reset_timer
+[000450]   codo_gui_init
+[000450]   codo_keys_init
+[000450]   codo_text_init
+[000450]   codo_video_init
+[000450]   codo_mouse_init
+[000450]   codo_joystick_init
+[000450]   Reading controller mappings: /Users/shirishsarkar/_CODE/pong/sdl_controllers.txt
+[000450]   searching for joysticks
+[000450]     found 0 joysticks
+[000450]   ok
+[000451] ok
+[000463] codo_load_pod: /Applications/PICO-8.app/Contents/MacOS/pico8.dat ok 
+[000465] codo_set_screen 128 128 8 100
+[000465]  window size: 640 540
+[000506]   setting filter to nearest (screen_mode 0  back page width: 128)
   renderer metal:
    flags: 0x0000000E ( |  | )
    texture formats (6): ARGB8888, ABGR8888, YV12, IYUV, 0x3231564e, 0x3132564e
    max texture size: 16384x16384
-[000680]  desktop size: 1440 900
-[000680] ok
-[000691] codo_sound_init mix_buffer_size: 1024
-[000691] codo_sound_init
-[000691] SDL_INIT_AUDIO ok
-[000772] SDL_OpenAudio ok
-[000772]  freq:22050
+[000509]  desktop size: 3440 1440
+[000509] ok
+[000517] codo_sound_init mix_buffer_size: 1024
+[000517] codo_sound_init
+[000517] SDL_INIT_AUDIO ok
+[000602] SDL_OpenAudio ok
+[000602]  freq:22050
  channels:1
-[000772] Built-in audio drivers: 0 coreaudio 1 disk 2 dummy
-[000772] Current audio driver: coreaudio
-[000772] splore_init
-[000772] could not load favourites file: /Users/shirishsarkar/_CODE/pong/favourites.txt
-[002889] loading /Users/shirishsarkar/_CODE/pong/pong.p8
-[005274] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[4238250] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[000602] Built-in audio drivers: 0 coreaudio 1 disk 2 dummy
+[000602] Current audio driver: coreaudio
+[000602] splore_init
+[000602] could not load favourites file: /Users/shirishsarkar/_CODE/pong/favourites.txt
+[002698] loading /Users/shirishsarkar/_CODE/pong/pong.p8
+[004374] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[069683] codo_save_png result: 0  file: /Users/shirishsarkar/_CODE/pong/carts/valley-pong.p8.png
+[126883] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[188633] window closed (14)
+[188635] codo_exit
+[188635]   cmusic_stop
+[188635]   codo_main_exit
+[188636]   codo_config_save
+[188637]   codo_sound_exit
+[188638]   codo_video_exit
+[188657]   codo_joystick_exit
+[188657]   codo_system_exit
+[188658]   codo_items_created: 1294
+[188658] ok

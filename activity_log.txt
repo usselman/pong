@@ -19,4 +19,13 @@
  ri.........i.........ccccc...c
 2024-11-24 23:11:28 /Users/shirishsarkar/_CODE/pong/pong.p8
  rrrim.........mm........m.........mm........mrrrrrrrrrrrrrrrrrr_rrrrrrrrrrr_rrrr
+ rrr_rrrri.........iiri.........ii.........i.........ii.........i.........i......
+ ...iiii.ii.........i.........ii.........ii.........i.........
+2024-11-27 21:01:04 /Users/shirishsarkar/_CODE/pong/carts/untitled.p8
+ i.
+2024-11-27 21:01:20 /Users/shirishsarkar/_CODE/pong/carts/untitled.p8
  
+2024-11-27 21:02:27 /Users/shirishsarkar/_CODE/pong/carts/untitled.p8
+ ici.........c......
+2024-11-27 21:33:57 /Users/shirishsarkar/_CODE/pong/pong.p8
+ rriiiiiri........iii.........rrrrrrrrrrrrrrrrrrrri
