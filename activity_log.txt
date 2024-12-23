@@ -29,3 +29,7 @@
  ici.........c......
 2024-11-27 21:33:57 /Users/shirishsarkar/_CODE/pong/pong.p8
  rriiiiiri........iii.........rrrrrrrrrrrrrrrrrrrri
+2024-12-23 23:01:15 /Users/shirishsarkar/_CODE/pong/pong.p8
+ rrrrrc...rrrrrrrrri.........ii.........irrrrrrii.........rii.....rrc..c......cgg
+ gg.......gg.........rg.........rgg.rrrg....rrrrg....g.....grrgg.grrrrrrri.......
+ 
