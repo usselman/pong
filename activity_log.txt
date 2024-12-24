@@ -32,4 +32,12 @@
 2024-12-23 23:01:15 /Users/shirishsarkar/_CODE/pong/pong.p8
  rrrrrc...rrrrrrrrri.........ii.........irrrrrrii.........rii.....rrc..c......cgg
  gg.......gg.........rg.........rgg.rrrg....rrrrg....g.....grrgg.grrrrrrri.......
+ ..irrrrrrrrrrrrr_rrrrrrrrrrrrrr__rrrrrrrrrri.........irrrrg.........gg.........r
+ rrrrrrrg.........rg.rr___rrrrrrrrrrrrrrrrrg.....tsssssssssss.......sssssssssssss
+ ssssssssssssssssssssssssssssssrss....rrrrrrrrrrrrrrrr__rr_rrrrrrrrrrrrrrrrrrrrrr
+ ssssssssssssss.......rrrrrrs...s...sssssssssssssssssssssssssssssssssssssssssssss
+ sssssssssssssssssssssssssssssssssssssssssssssssssssssssss...sssssssssssrs.......
+ ..ri.sttttttrttrt..ttrrrtrttttttttrt.tt.........rrrtrrrrrrrrrrrrrrrrrrrrrrr_rrrr
+ rrrrrrrrrrrrrrrrri.........i.........immgggggggggggggggggggggggggggggggggggggggg
+ gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg.......gg...
  

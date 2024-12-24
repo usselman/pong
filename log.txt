@@ -104,3 +104,22 @@
 [790950] saving gif to: /Users/shirishsarkar/Desktop/pong_3.gif
 [1040975] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
 [1476902] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[1922821] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[2055081] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[2063872] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[2079258] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[2335097] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[2355663] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[2547595] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[2938350] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[2974847] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[3004464] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[3013294] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[3030473] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[3043173] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[3070142] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[3121486] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[3131327] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[3909224] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[3926107] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[3996024] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
