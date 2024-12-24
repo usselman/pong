@@ -51,13 +51,14 @@ function _init()
   init_background()
   game_state = 0
 
-  music(1) -- Example: start some music if you want
+  music(1)
 end
 
 -----------------------
 -- UPDATE FUNCTION  --
 -----------------------
 function _update()
+  local game_state_pico = 0
   if game_state == 0 then
     -----------------------
     -- START MENU (state=0)
@@ -90,6 +91,7 @@ function _update()
     ------------------------
     -- GAME OVER (state=2)
     ------------------------
+    game_state_pico = 1
     update_background()
     -- Press X (btn(5)) to reset and go back to start menu
     if btnp(5) then
@@ -97,6 +99,11 @@ function _update()
       game_state = 0
     end
   end
+  -- For a typical integer, you can do:
+    poke4(0x5f80, score)
+    -- Poke the game state (0 or 1) into 0x5f84.
+    poke2(0x5f84, game_state_pico)
+
 end
 
 -----------------------
@@ -111,9 +118,11 @@ function _draw()
     -----------------------
     draw_background()
     -- Draw "SPACE" sprite letters (example near the top)
-    draw_space_title(32, 20) 
-    -- print_centered("VALLEY PONG", 48, 7)
-    print_centered("PRESS X TO START", 62, 6)
+    -- draw_space_title(32, 20) 
+    print_centered("space paddle", 36, 7)
+    print_centered("ARROWS TO MOVE", 56, 6)
+    print_centered("PRESS X TO START", 66, 6)
+    print_centered("VALLEY STUDIOS", 96, 7)
 
   elseif game_state == 1 then
     -----------------------
@@ -147,8 +156,8 @@ end
 -------------------------------------
 
 function update_player()
-  if btn(0) then player.y -= player.speed end -- Up
-  if btn(1) then player.y += player.speed end -- Down
+  if btn(0) or btn(2) then player.y -= player.speed end -- Up
+  if btn(1) or btn(3) then player.y += player.speed end -- Down
   player.y = mid(0, player.y, 120)
 end
 
@@ -184,7 +193,7 @@ function update_ball()
       score += 1
     elseif ball.x < -8 then
       -- Player misses => Game Over
-      sfx(2)
+      music(2)
       game_state = 2
     end
   end
@@ -198,7 +207,8 @@ function update_ball()
       -- AI misses => You beat AI => +5 (or +10, per your preference)
       sfx(3)
       -- Instead of game over, we keep playing but reset ball
-      score += 5
+      score += 3
+      print_centered("+3!", 24, 6)
       start_serve()
     end
   end
@@ -298,6 +308,7 @@ function reset_game()
   score = 0
   serving = false
   serve_timer = 0
+  music(1)
 end
 
 ----------------------
