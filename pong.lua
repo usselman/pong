@@ -23,7 +23,6 @@ ball_trail = {}
 --------------------------
 -- PARALLAX BACKGROUND --
 --------------------------
-
 bg_layer1 = {}
 bg_layer2 = {}
 num_shapes_layer1 = 20
@@ -32,10 +31,17 @@ num_shapes_layer2 = 15
 -----------------------
 -- GAME STATE SYSTEM --
 -----------------------
--- 0 = start menu
--- 1 = playing
--- 2 = game over
+-- game_state:
+--   0 = start menu
+--   1 = playing
+--   2 = game over
 game_state = 0
+
+-- When the ball resets, we show "SERVE IT UP!" for 2 seconds
+-- serving = true means we're in the "serve" pause
+-- serve_timer counts down frames (2s ~ 120 frames at 60fps)
+serving = false
+serve_timer = 0
 
 -----------------------
 -- INITIALIZATION    --
@@ -44,7 +50,8 @@ function _init()
   cls()
   init_background()
   game_state = 0
-  music(1)
+
+  music(1) -- Example: start some music if you want
 end
 
 -----------------------
@@ -52,28 +59,39 @@ end
 -----------------------
 function _update()
   if game_state == 0 then
-    -- START MENU
+    -----------------------
+    -- START MENU (state=0)
+    -----------------------
     update_background()
-    
-    -- Press up (btn(0)) or any button to start
+    -- Press X (btn(5)) to start the game
     if btnp(5) then
-      -- Go to gameplay
       game_state = 1
+      start_serve()
     end
     
   elseif game_state == 1 then
-    -- PLAYING
+    ---------------------
+    -- PLAYING (state=1)
+    ---------------------
     update_background()
     update_player()
     update_ai()
-    update_ball()
+
+    -- If we are in "serve" mode, the ball is paused except for the 2s timer
+    if serving then
+      update_serve()
+    else
+      update_ball()
+    end
+
     update_trail()
     
   elseif game_state == 2 then
-    -- GAME OVER
+    ------------------------
+    -- GAME OVER (state=2)
+    ------------------------
     update_background()
-    
-    -- Press UP (btn(0)) to reset
+    -- Press X (btn(5)) to reset and go back to start menu
     if btnp(5) then
       reset_game()
       game_state = 0
@@ -88,13 +106,19 @@ function _draw()
   cls()
 
   if game_state == 0 then
+    -----------------------
     -- START MENU
+    -----------------------
     draw_background()
-    print_centered("VALLEY PONG", 48, 7)
-    print_centered("PRESS X TO START", 58, 6)
+    -- Draw "SPACE" sprite letters (example near the top)
+    draw_space_title(32, 20) 
+    -- print_centered("VALLEY PONG", 48, 7)
+    print_centered("PRESS X TO START", 62, 6)
 
   elseif game_state == 1 then
+    -----------------------
     -- PLAYING
+    -----------------------
     draw_background()
     draw_field()
     draw_paddles()
@@ -102,8 +126,15 @@ function _draw()
     draw_ball()
     draw_score()
 
+    -- If serving, draw "SERVE IT UP!" in flashing color
+    if serving then
+      draw_serve_message()
+    end
+
   elseif game_state == 2 then
+    -----------------------
     -- GAME OVER
+    -----------------------
     draw_background()
     print_centered("GAME OVER", 50, 7)
     print_centered("SCORE: "..score, 60, 6)
@@ -118,7 +149,6 @@ end
 function update_player()
   if btn(0) then player.y -= player.speed end -- Up
   if btn(1) then player.y += player.speed end -- Down
-  -- Keep player paddle on screen
   player.y = mid(0, player.y, 120)
 end
 
@@ -165,11 +195,11 @@ function update_ball()
       sfx(1)
       bounce_off_paddle(ai)
     elseif ball.x > 136 then
-      -- AI misses => You beat AI => +10
+      -- AI misses => You beat AI => +5 (or +10, per your preference)
       sfx(3)
-      reset_ball()
-      reset_difficulty()
+      -- Instead of game over, we keep playing but reset ball
       score += 5
+      start_serve()
     end
   end
 
@@ -197,7 +227,7 @@ function bounce_off_paddle(paddle)
     ball.dy = (offset * 3) + (0.3 * ball.dy)
     ball.x = player.x + 3
   else
-    -- AI's specialized aiming
+    -- AI aiming logic
     local player_mid = player.y + 6
     if (player_mid < 64) then
       ball.dy = abs(ball.dy) + rnd(0.5)
@@ -214,8 +244,42 @@ function increase_difficulty()
 end
 
 function reset_difficulty()
-  ai.difficulty = 0.25
-  ai.speed      = 1
+    ai.difficulty = 0.25
+    ai.speed      = 1
+end
+
+---------------------------------
+-- SERVE ("SERVE IT UP!") LOGIC --
+---------------------------------
+-- Called whenever a new round starts.
+function start_serve()
+  reset_ball()
+  reset_difficulty()
+  serving = true
+  serve_timer = 90   -- ~2 seconds at 60fps
+end
+
+function update_serve()
+  -- While serving, the ball is effectively paused
+  serve_timer -= 1
+  if serve_timer <= 0 then
+    serving = false
+  end
+end
+
+function draw_serve_message()
+  -- Flashing color: let’s pick color based on frame count
+  -- e.g., two colors toggling every 15 frames
+  local t = flr(time()*30)
+  local color
+  if (t % 30) < 15 then
+    color = 10  -- e.g., bright green
+  else
+    color = 9   -- e.g., bright red
+  end
+  
+  -- Print "SERVE IT UP!" in the center
+  print_centered("SERVE IT UP!", 50, color)
 end
 
 ---------------------------------
@@ -232,6 +296,8 @@ function reset_game()
   reset_ball()
   reset_difficulty()
   score = 0
+  serving = false
+  serve_timer = 0
 end
 
 ----------------------
@@ -342,4 +408,36 @@ function print_centered(str, y, col)
   local w = #str * 4   -- each character ~4px wide in Pico-8's font
   local x = 64 - (w / 2)
   print(str, x, y, col)
+end
+
+------------------------------------
+-- DRAW "SPACE" FROM SPRITES     --
+------------------------------------
+-- We have 6 sprite indices for each letter: top half, bottom half.
+-- According to your info:
+-- S: top=1, bot=17
+-- P: top=2, bot=18
+-- A: top=3, bot=19
+-- C: top=4, bot=20
+-- E: top=5, bot=21
+-- We'll place them horizontally in a row.
+function draw_space_title(x, y)
+  local letters = {
+    { top=1,  bot=17 },  -- S
+    { top=2,  bot=18 },  -- P
+    { top=3,  bot=19 },  -- A
+    { top=4,  bot=20 },  -- C
+    { top=5,  bot=21 },  -- E
+  }
+
+  local cursor_x = x
+  for l in all(letters) do
+    -- Draw top half at (cursor_x, y)
+    spr(l.top, cursor_x, y)
+    -- Draw bottom half at (cursor_x, y+8)
+    spr(l.bot, cursor_x, y+8)
+
+    -- Move cursor to the right (8 pixels wide each letter)
+    cursor_x += 8
+  end
 end

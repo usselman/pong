@@ -123,3 +123,20 @@
 [3909224] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
 [3926107] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
 [3996024] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[4101562] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[4160147] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[4170865] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[4218715] saving gif to: /Users/shirishsarkar/Desktop/pong_4.gif
+[8119088] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[8125713] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[8135511] window closed (14)
+[8135512] codo_exit
+[8135512]   cmusic_stop
+[8135512]   codo_main_exit
+[8135514]   codo_config_save
+[8135516]   codo_sound_exit
+[8135516]   codo_video_exit
+[8135549]   codo_joystick_exit
+[8135549]   codo_system_exit
+[8135550]   codo_items_created: 1404
+[8135550] ok
