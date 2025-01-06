@@ -63,4 +63,14 @@
  rrrric.........cggggggggg.gggggggggg...ggii.i.........i.........i.i.....iii.....
  ....rrrrrrrrrr_rrrrrrrrrrrrr__r_ri.........rrrrrg...rrrrrrrrrrrrrrrrrr__rrrrrrrr
  r_________rr_g.....rri.......rrrrrrrrr_rrr_ri.........rrrrrrrrrrrrrrrrrrrggg.ggg
+ gggggg.gggggggg.........gggggg.........g.........g.........rrrrrrrrrrrrrrrrrrrr_
+ rrrrrrrrrrrr_rrrrrrrrrrrrri...rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrri.........ir_r
+ rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrii.........rrrrri.........irrrrrrrrr
+ rrrrrrrrrrrrrrrrrr_rr_rrrg........gi.........rrrrrrrrrrrrrrg.........rrrrrrrr_rr
+ rrrigggggggggggggggggggggggggggrg.........rrrrrrr_rrrrrrrr_________rrrrrrrrggggg
+ rrrgggrrrrrg.........rrrrrrrrrrrrrrrrrrrrrr_rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr_rri..
+ .......rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr_rrrrr_g.......ri
+ ..r__rrrrrrrg.........r___i.........r_r__rr_r_r____r_rr__r_r_____rrg.....g.....r
+ rg...grrrrrrrrrrrrrrrrrrrrrr_rrrrrrrrrrrrg...rgr_rrrrrrrrrrrrg..rrrrrrrrr_rrrrrr
+ rrrrrrrrrrrrrrrrrrrrrrrrgiirrrrii.........rrrrrrrrrrrrr_r_rrr_________i.........
  
