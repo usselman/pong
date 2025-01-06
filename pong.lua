@@ -9,7 +9,7 @@
 player = {
   x = 2,
   y = 64,
-  speed = 4,   -- how quickly velocity changes with up/down
+  speed = 3,   -- how quickly velocity changes with up/down
   vel = 0,     -- current velocity
   friction = 0.8
 }

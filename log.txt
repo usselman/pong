@@ -136,3 +136,8 @@
 [4902509] saving gif to: /Users/shirishsarkar/Desktop/pong_0.gif
 [4909550] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
 [4917383] saving gif to: /Users/shirishsarkar/Desktop/pong_0.gif
+[6480130] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[6489434] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[6498474] exporting html: index.js 0 1
+[6498483] 1. export html
+[6498484] 2. writing /Users/shirishsarkar/_CODE/pong/carts/index.js
