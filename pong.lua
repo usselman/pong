@@ -9,9 +9,9 @@
 player = {
   x = 2,
   y = 64,
-  speed = 3,   -- how quickly velocity changes with up/down
+  speed = 3.5,   -- how quickly velocity changes with up/down
   vel = 0,     -- current velocity
-  friction = 0.8
+  friction = 0.4
 }
 
 -- AI settings
@@ -153,7 +153,7 @@ function _update()
     end
   end
 
-  -- Poke the score & game state into memory
+  -- GAME STATE AND SCORE STORAGE
   poke4(0x5f80, score)
   poke2(0x5f84, game_state_pico)
 end
