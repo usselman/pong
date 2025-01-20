@@ -7,7 +7,7 @@
 
 player = {
   x=2, y=64,
-  speed=3,
+  speed=3.25,
   vel=0,
   friction=0.2
 }
@@ -163,7 +163,7 @@ function _draw()
     print_centered("ARROWS TO MOVE", 56, 6)
     print_centered("PRESS X TO START",66, 6)
     print_centered("VALLEY STUDIOS",96,7)
-    print_centered("V0.3",106,6)
+    print_centered("V0.4",106,6)
 
   elseif game_state==1 then
     draw_background()
@@ -235,55 +235,106 @@ function update_ai_freeze()
 end
 
 function update_ball()
-  ball.dy+=ball.gravity
-  ball.x+=ball.dx
-  ball.y+=ball.dy
+  -- Each frame, we want to move the ball from (ball.x, ball.y)
+  -- to (ball.x + ball.dx, ball.y + ball.dy) in small increments.
 
-  if ball.y<0 then
-    ball.y=0
-    ball.dy=-ball.dy*0.95
-    sfx(4)
-  elseif ball.y>127 then
-    ball.y=127
-    ball.dy=-ball.dy*0.95
-    sfx(4)
+  -- 1) Apply gravity to the velocity
+  ball.dy += ball.gravity
+
+  -- 2) Compute how far we want to move this frame
+  local dx = ball.dx
+  local dy = ball.dy
+
+  -- 3) Determine how many sub-steps to take
+  -- e.g. up to 4 sub-steps if distance is large
+  local dist = sqrt(dx*dx + dy*dy)
+  local steps = 1
+
+  if dist > 4 then
+    steps = ceil(dist / 4)
   end
 
-  -- Player side
-  if ball.x<player.x+2 then
-    if is_colliding_with_paddle(player) then
-      sfx(0)
-      bounce_off_paddle(player)
-      rally_count+=1
-      scale_ball_speed()
-      local mult=total_score_multiplier()
-      score+=mult
-      check_score_for_bubble()
-    elseif ball.x<-8 then
-      music(2)
-      game_state=2
+  local step_x = dx / steps
+  local step_y = dy / steps
+
+  -- 4) Move the ball in multiple small steps
+  for i=1,steps do
+    ball.x += step_x
+    ball.y += step_y
+
+    -- Now check top/bottom bounce
+    if ball.y < 0 then
+      ball.y = 0
+      ball.dy = -ball.dy * 0.95
+      sfx(4)
+    elseif ball.y > 127 then
+      ball.y = 127
+      ball.dy = -ball.dy * 0.95
+      sfx(4)
+    end
+
+    -- Check collision with player side
+    if ball.x < player.x + 2 then
+      if is_colliding_with_paddle(player) then
+        sfx(0)
+        bounce_off_paddle(player)
+        rally_count += 1
+        scale_ball_speed()
+        local mult = total_score_multiplier()
+        score += mult
+        check_score_for_bubble()
+        -- Because we changed dx/dy in bounce_off_paddle(),
+        -- re-calculate step_x/step_y so subsequent sub-steps move with new velocity
+        dx = ball.dx
+        dy = ball.dy
+        dist = sqrt(dx*dx + dy*dy)
+        if dist > 4 then
+          steps = ceil(dist / 4)
+        else
+          steps = 1
+        end
+        step_x = dx / steps
+        step_y = dy / steps
+      elseif ball.x < -8 then
+        music(2)
+        game_state = 2
+        return
+      end
+    end
+
+    -- Check collision with AI side
+    if ball.x + 2 > ai.x then
+      if is_colliding_with_paddle(ai) then
+        sfx(1)
+        bounce_off_paddle(ai)
+        rally_count += 1
+        scale_ball_speed()
+        dx = ball.dx
+        dy = ball.dy
+        dist = sqrt(dx*dx + dy*dy)
+        if dist > 4 then
+          steps = ceil(dist / 4)
+        else
+          steps = 1
+        end
+        step_x = dx / steps
+        step_y = dy / steps
+      elseif ball.x > 136 then
+        sfx(3)
+        local mult = total_score_multiplier()
+        score += 3*mult
+        rally_count = 0
+        check_score_for_bubble()
+        start_serve()
+        return
+      end
     end
   end
 
-  -- AI side
-  if ball.x+2>ai.x then
-    if is_colliding_with_paddle(ai) then
-      sfx(1)
-      bounce_off_paddle(ai)
-      rally_count+=1
-      scale_ball_speed()
-    elseif ball.x>136 then
-      sfx(3)
-      local mult=total_score_multiplier()
-      score+=3*mult
-      rally_count=0
-      check_score_for_bubble()
-      start_serve()
-    end
-  end
-
-  add(ball_trail, { x=ball.x, y=ball.y, life=10 })
+  -- Finally, add a new trail particle
+  add(ball_trail, { x = ball.x, y = ball.y, life = 10 })
 end
+
 
 function is_colliding_with_paddle(pad)
   return (
@@ -559,8 +610,8 @@ function spawn_powerup(s)
   elseif s==4 then
     -- #4 => freeze AI for 10s
     sfx(8)            -- play your sfx(8)
-    flash_time=10     -- screen flash for ~10 frames
-    ai_frozen_time=600-- freeze 10s
+    flash_time=6     -- screen flash for ~10 frames
+    ai_frozen_time=300-- freeze 5s
   end
 end
 
@@ -591,8 +642,7 @@ end
 function draw_flash()
   if flash_time>0 then
     -- fill the screen with a bright color
-    -- pick color 7 or 10, etc.
-    local c=7
+    local c=12
     rectfill(0,0,127,127,c)
   end
 end
