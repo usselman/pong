@@ -30,7 +30,6 @@ ball_trail = {}
 
 rally_count = 0
 start_speed = 2.25
--- start_speed = 4
 score = 0
 
 --------------------------
@@ -38,25 +37,18 @@ score = 0
 --------------------------
 spawn_bubble_chance = 0.75
 
--- Existing multiplier powerup info
+-- Existing multiplier powerup info (unchanged)
 powerup_active = false
-powerup_type   = 0  -- 1=extra balls, 2=x2 score, 3=freeze ai (new logic)
+powerup_type   = 0  -- 1=extra balls, 2=x2 score, 3=freeze ai (existing logic)
 
 powerup_timer  = 0
 extra_balls = {}
 
---------------------------
--- BUBBLE SPAWNER
---------------------------
-bubble = {
-  active = false,
-  x = 64, y = 64,
-  life = 0,
-  spr = 1,    -- bubble sprite
-  powerup_spr = 0
-}
+-- Instead of a single bubble, we now have a table for multiple powerups.
+max_powerups = 1   -- start with 1 and gradually increase up to 4.
+powerups = {}      -- holds active powerup bubbles
 
--- Score thresholds for bubble spawns
+-- Score threshold for spawning the next powerup.
 next_powerup_score = 1
 
 --------------------------
@@ -64,6 +56,20 @@ next_powerup_score = 1
 --------------------------
 ai_frozen_time = 0     -- frames left while AI is frozen
 flash_time     = 0     -- frames for a short “screen flash”
+
+--------------------------
+-- SCREEN SHAKE & PARTICLE VARIABLES
+--------------------------
+screen_shake_time = 0       -- Duration (in frames) of the screen shake effect
+screen_shake_magnitude = 2  -- Maximum pixel offset for shake
+hit_particles = {}          -- Table to hold hit particles
+
+--------------------------
+-- SLOW POWERUP VARIABLES
+--------------------------
+slow_active = false    -- whether the slow powerup is active
+slow_timer = 0         -- frames remaining for slow effect
+slow_factor = 1        -- effective multiplier (1 normally, 0.5 while slowed)
 
 --------------------------
 -- SCORING MULTIPLIER  --
@@ -76,7 +82,6 @@ end
 function total_score_multiplier()
   local base_mult = base_score_multiplier()
   if powerup_active and powerup_type == 2 then
-    -- if x2 powerup is active
     return base_mult * 2
   end
   return base_mult
@@ -112,31 +117,52 @@ end
 -----------------------
 function _update()
   local game_state_pico = 0
+  
+  -- Update the slow powerup effect.
+  if slow_active then
+    slow_timer -= 1
+    if slow_timer <= 0 then
+      slow_active = false
+      slow_factor = 1
+    else
+      slow_factor = 0.5
+    end
+  else
+    slow_factor = 1
+  end
+
   if game_state == 0 then
     update_background()
     if btnp(5) then
       game_state = 1
       start_serve()
     end
-
   elseif game_state == 1 then
     update_background()
     update_player()
-    update_ai_freeze() -- handle AI freeze logic
-
+    update_ai_freeze()
     if serving then
       update_serve()
     else
-      update_ball()          -- new collision/movement system here!
+      update_ball()          -- ball movement with pixel–by–pixel collision
       update_extra_balls()
-      update_bubble()
+      
+      -- Update active powerup bubbles.
+      update_powerups()
+      
+      -- Check for collisions: the ball collects powerups.
+      for i = #powerups, 1, -1 do
+        local p = powerups[i]
+        if check_powerup_hit(ball.x, ball.y, p) then
+          pop_powerup(p)
+        end
+      end
     end
 
-    update_powerup()
+    update_powerup()   -- existing multiplier powerup update
     update_trail()
-    maybe_spawn_bubble()
+    maybe_spawn_powerups()   -- spawn powerups if below max count
 
-    -- decrement flash_time if >0
     if flash_time > 0 then
       flash_time -= 1
     end
@@ -150,7 +176,12 @@ function _update()
     end
   end
 
-  poke4(0x5f80, score)
+  update_hit_particles()
+  if screen_shake_time > 0 then
+    screen_shake_time -= 1
+  end
+
+  poke4(0x5f80, score * 65536)
   poke2(0x5f84, game_state_pico)
 end
 
@@ -158,6 +189,15 @@ end
 -- DRAW FUNCTION    --
 -----------------------
 function _draw()
+  -- Apply screen shake via random camera offset if active.
+  if screen_shake_time > 0 then
+    local shake_x = flr(rnd(screen_shake_magnitude * 2 + 1)) - screen_shake_magnitude
+    local shake_y = flr(rnd(screen_shake_magnitude * 2 + 1)) - screen_shake_magnitude
+    camera(shake_x, shake_y)
+  else
+    camera(0, 0)
+  end
+
   cls()
 
   if game_state == 0 then
@@ -167,28 +207,28 @@ function _draw()
     print_centered("PRESS X TO START", 66, 6)
     print_centered("VALLEY STUDIOS", 96, 7)
     print_centered("V0.4", 106, 6)
-
   elseif game_state == 1 then
     draw_background()
-    draw_flash()     -- if flash_time>0, show a quick screen overlay
+    draw_flash()
     draw_field()
     draw_paddles()
     draw_ball_trail()
+    draw_hit_particles()
     draw_ball()
     draw_extra_balls()
-    draw_bubble()
+    draw_powerups()
     draw_score()
-
     if serving then
       draw_serve_message()
     end
-
   elseif game_state == 2 then
     draw_background()
     print_centered("GAME OVER", 50, 7)
     print_centered("SCORE: " .. score, 60, 6)
     print_centered("PRESS X TO RESTART", 70, 6)
   end
+
+  camera(0,0)
 end
 
 -------------------------------------
@@ -214,9 +254,9 @@ function update_player()
   local up = btn(0) or btn(2)
   local down = btn(1) or btn(3)
   if up then
-    player.vel = -player.speed
+    player.vel = -player.speed * slow_factor
   elseif down then
-    player.vel = player.speed
+    player.vel = player.speed * slow_factor
   else
     player.vel *= player.friction
   end
@@ -224,15 +264,12 @@ function update_player()
   player.y = mid(0, player.y, 120)
 end
 
--- Freeze AI for ai_frozen_time if >0
 function update_ai_freeze()
   if ai_frozen_time > 0 then
     ai_frozen_time -= 1
-    -- AI is frozen => do nothing
   else
-    -- normal AI logic
     local ai_target_y = ball.y - 4
-    ai.y += (ai_target_y - ai.y) * ai.difficulty
+    ai.y += (ai_target_y - ai.y) * ai.difficulty * slow_factor
     ai.y = mid(0, ai.y, 120)
   end
 end
@@ -244,15 +281,16 @@ function update_ball()
   -- 1) Apply gravity
   ball.dy += ball.gravity
 
-  -- 2) Accumulate fractional movement
-  ball.rx += ball.dx
-  ball.ry += ball.dy
+  -- 2) Use slow_factor for ball movement.
+  local effective_dx = ball.dx * slow_factor
+  local effective_dy = ball.dy * slow_factor
+  ball.rx += effective_dx
+  ball.ry += effective_dy
 
-  -- 3) Determine whole pixel movement using a custom round function
+  -- 3) Determine whole pixel movement using a custom round function.
   local moveX = round(ball.rx)
   local moveY = round(ball.ry)
 
-  -- Remove the whole pixels from the remainders so the fractional part carries over
   ball.rx -= moveX
   ball.ry -= moveY
 
@@ -261,15 +299,12 @@ function update_ball()
   for i = 1, abs(moveX) do
     local newX = ball.x + signX
     if signX < 0 then
-      -- Moving left: check for collision with the player paddle
       if collides_with_paddle(newX, ball.y, player) then
         sfx(0)
         bounce_off_paddle(player)
         rally_count += 1
         scale_ball_speed()
-        local mult = total_score_multiplier()
-        score += mult
-        -- Stop further horizontal movement this frame upon collision
+        score += total_score_multiplier()
         break
       elseif newX < -8 then
         music(2)
@@ -277,7 +312,6 @@ function update_ball()
         return
       end
     elseif signX > 0 then
-      -- Moving right: check for collision with the AI paddle
       if collides_with_paddle(newX, ball.y, ai) then
         sfx(1)
         bounce_off_paddle(ai)
@@ -286,8 +320,7 @@ function update_ball()
         break
       elseif newX > 136 then
         sfx(3)
-        local mult = total_score_multiplier()
-        score += 3 * mult
+        score += 3 * total_score_multiplier()
         rally_count = 0
         start_serve()
         return
@@ -315,11 +348,9 @@ function update_ball()
     end
   end
 
-  -- 6) Add a new trail particle
   add(ball_trail, { x = ball.x, y = ball.y, life = 10 })
 end
 
--- Helper: Custom round function that works correctly for negative numbers
 function round(n)
   if n < 0 then
     return -flr(-n + 0.5)
@@ -328,23 +359,13 @@ function round(n)
   end
 end
 
--- Helper: Check if a rectangle at (x,y) with size 2x2 collides with a paddle
 function collides_with_paddle(x, y, pad)
   return (x + 2 > pad.x and x < pad.x + 2 and y + 2 > pad.y and y < pad.y + 12)
 end
 
 -------------------------------------
--- ORIGINAL PADDLE Collision Response
+-- PADDLE Collision Response & Effects
 -------------------------------------
-function is_colliding_with_paddle(pad)
-  return (
-    (ball.x + 2 > pad.x) and
-    (ball.x < pad.x + 2) and
-    (ball.y + 2 > pad.y) and
-    (ball.y < pad.y + 12)
-  )
-end
-
 function bounce_off_paddle(paddle)
   ball.dx = -ball.dx
   if paddle == player then
@@ -361,6 +382,8 @@ function bounce_off_paddle(paddle)
     end
     ball.x = ai.x - 3
   end
+  screen_shake_time = 6  -- trigger screen shake
+  spawn_hit_particles(ball.x + 1, ball.y + 1)
 end
 
 function scale_ball_speed()
@@ -419,7 +442,8 @@ function reset_game()
   player.vel = 0
 
   extra_balls = {}
-  bubble.active = false
+  powerups = {}
+  max_powerups = 1
   powerup_active = false
   powerup_type = 0
   powerup_timer = 0
@@ -428,6 +452,9 @@ function reset_game()
   ball_trail = {}
   ai_frozen_time = 0
   flash_time = 0
+  slow_active = false
+  slow_timer = 0
+  slow_factor = 1
 
   music(1)
 end
@@ -456,14 +483,53 @@ function draw_ball_trail()
 end
 
 ------------------------------
+-- HIT PARTICLE FUNCTIONS --
+------------------------------
+function spawn_hit_particles(x, y)
+  local count = 4
+  for i = 1, count do
+    local angle = rnd(1)
+    local speed = 1 + rnd(1)
+    add(hit_particles, {
+      x = x,
+      y = y,
+      dx = cos(angle) * speed,
+      dy = sin(angle) * speed,
+      life = 10,
+      color = 7
+    })
+  end
+end
+
+function update_hit_particles()
+  for i = #hit_particles, 1, -1 do
+    local p = hit_particles[i]
+    p.x += p.dx
+    p.y += p.dy
+    p.dx *= 0.95
+    p.dy *= 0.95
+    p.life -= 1
+    if p.life <= 0 then
+      del(hit_particles, p)
+    end
+  end
+end
+
+function draw_hit_particles()
+  for p in all(hit_particles) do
+    circfill(p.x, p.y, 1, p.color)
+  end
+end
+
+------------------------------
 -- EXTRA BALLS (POWERUP#2) --
 ------------------------------
 function update_extra_balls()
   for i = #extra_balls, 1, -1 do
     local eb = extra_balls[i]
     eb.dy += ball.gravity
-    eb.x += eb.dx
-    eb.y += eb.dy
+    eb.x += eb.dx * slow_factor
+    eb.y += eb.dy * slow_factor
     eb.life -= 1
 
     if eb.y < 0 then
@@ -477,28 +543,24 @@ function update_extra_balls()
     if eb.life <= 0 then
       del(extra_balls, eb)
     else
-      -- collision with player
       if eb.x < player.x + 2 then
         if (eb.x + 2 > player.x and eb.x < player.x + 2 and eb.y + 2 > player.y and eb.y < player.y + 12) then
           sfx(0)
           eb.dx = -eb.dx
           eb.dy = (eb.dy * 0.9) + rnd(0.2)
-          local mult = total_score_multiplier()
-          score += mult
+          score += total_score_multiplier()
           check_score_for_bubble()
         elseif eb.x < -8 then
           del(extra_balls, eb)
         end
       end
 
-      -- collision or pass AI
       if eb.x + 2 > ai.x then
         if (eb.x + 2 > ai.x and eb.x < ai.x + 2 and eb.y + 2 > ai.y and eb.y < ai.y + 12) then
           sfx(1)
           eb.dx = -eb.dx
         elseif eb.x > 136 then
-          local mult = total_score_multiplier()
-          score += 3 * mult
+          score += 3 * total_score_multiplier()
           del(extra_balls, eb)
         end
       end
@@ -513,107 +575,102 @@ function draw_extra_balls()
 end
 
 ------------------------------
--- POWERUP BUBBLE
+-- POWERUP BUBBLE (MULTIPLE) --
 ------------------------------
-function maybe_spawn_bubble()
-  if bubble.active then return end
-  if score >= next_powerup_score then
+function maybe_spawn_powerups()
+  if #powerups < max_powerups and score >= next_powerup_score then
     if rnd(1) < spawn_bubble_chance then
-      spawn_bubble()
+      spawn_powerup_bubble()
     else
       next_powerup_score += 1
     end
-  end
-end
-
-function spawn_bubble()
-  bubble.active = true
-  bubble.life = 600
-  bubble.spr = 1
-
-  bubble.x = 64 + rnd(20) - 10
-  bubble.y = 64 + rnd(20) - 10
-
-  -- 3 powerups => ~33% each
-  local r = rnd(1)
-  if r < 0.33 then
-    bubble.powerup_spr = 2  -- 3 extra balls
-  elseif r < 0.66 then
-    bubble.powerup_spr = 3  -- x2 score
-  else
-    bubble.powerup_spr = 4  -- freeze AI new
-  end
-
-  next_powerup_score += 1
-end
-
-function update_bubble()
-  if not bubble.active then return end
-  bubble.life -= 1
-
-  bubble.x += (rnd(5) - rnd(5)) * 0.2
-  bubble.y += (rnd(5) - rnd(5)) * 0.2
-
-  if bubble.y < 20 then bubble.y = 20 end
-  if bubble.y > 110 then bubble.y = 110 end
-  if bubble.x < 50 then bubble.x = 50 end
-  if bubble.x > 78 then bubble.x = 78 end
-
-  if bubble.life <= 0 then
-    bubble.active = false
-    return
-  end
-
-  -- check collisions
-  if check_bubble_hit(ball.x, ball.y) then
-    pop_bubble()
-    return
-  end
-  for eb in all(extra_balls) do
-    if check_bubble_hit(eb.x, eb.y) then
-      pop_bubble()
-      return
+    if max_powerups < 4 then
+      max_powerups += 1
     end
   end
 end
 
-function draw_bubble()
-  if not bubble.active then return end
-  spr(bubble.spr, bubble.x - 4, bubble.y - 4)
-  spr(bubble.powerup_spr, bubble.x - 4, bubble.y - 4)
+function spawn_powerup_bubble()
+  local p = {}
+  p.active = true
+  p.life = 600
+  p.spr = 1
+  if #powerups == 0 then
+    p.x = 64 + rnd(20) - 10
+    p.y = 64 + rnd(20) - 10
+  else
+    p.x = 16 + rnd(96)
+    p.y = 16 + rnd(96)
+  end
+  local r = rnd(1)
+  if r < 0.25 then
+    p.powerup_spr = 2  -- spawn extra balls powerup
+  elseif r < 0.5 then
+    p.powerup_spr = 3  -- x2 score multiplier
+  elseif r < 0.75 then
+    p.powerup_spr = 4  -- freeze AI
+  else
+    p.powerup_spr = 5  -- slow (halves movement speeds)
+  end
+  add(powerups, p)
+  next_powerup_score += 1
 end
 
-function check_bubble_hit(bx, by)
-  local dx = (bubble.x - (bx + 1))
-  local dy = (bubble.y - (by + 1))
+function update_powerups()
+  for i = #powerups, 1, -1 do
+    local p = powerups[i]
+    p.life -= 1
+    p.x += (rnd(5) - rnd(5)) * 0.2
+    p.y += (rnd(5) - rnd(5)) * 0.2
+    if p.x < 0 then p.x = 0 end
+    if p.x > 127 then p.x = 127 end
+    if p.y < 0 then p.y = 0 end
+    if p.y > 127 then p.y = 127 end
+    if p.life <= 0 then
+      del(powerups, p)
+    end
+  end
+end
+
+function draw_powerups()
+  for p in all(powerups) do
+    spr(p.spr, p.x - 4, p.y - 4)
+    spr(p.powerup_spr, p.x - 4, p.y - 4)
+  end
+end
+
+function check_powerup_hit(bx, by, p)
+  local dx = p.x - (bx + 1)
+  local dy = p.y - (by + 1)
   local dist = sqrt(dx^2 + dy^2)
   return (dist < 4)
 end
 
-function pop_bubble()
+function pop_powerup(p)
   sfx(2)
-  bubble.active = false
-  bubble.life = 0
-  spawn_powerup(bubble.powerup_spr)
+  spawn_powerup(p.powerup_spr)
+  del(powerups, p)
 end
 
---------------------------------
--- NEW POWERUP #4 LOGIC
---------------------------------
+------------------------------
+-- NEW POWERUP EFFECTS --
+------------------------------
 function spawn_powerup(s)
   if s == 2 then
-    -- #2 => spawn 3 extra red balls
     spawn_extra_balls()
   elseif s == 3 then
-    -- #3 => x2 multiplier
     powerup_active = true
     powerup_type = 2
     powerup_timer = 600
   elseif s == 4 then
-    -- #4 => freeze AI for 10s
-    sfx(8)            -- play your sfx(8)
-    flash_time = 6    -- screen flash for ~10 frames
-    ai_frozen_time = 300 -- freeze 5s
+    sfx(8)
+    flash_time = 6
+    ai_frozen_time = 300
+  elseif s == 5 then
+    sfx(8)
+    flash_time = 6
+    slow_active = true
+    slow_timer = 300
   end
 end
 
@@ -643,7 +700,6 @@ end
 ------------------------------
 function draw_flash()
   if flash_time > 0 then
-    -- fill the screen with a bright color
     local c = 12
     rectfill(0, 0, 127, 127, c)
   end
@@ -662,18 +718,13 @@ function draw_field()
 end
 
 function draw_paddles()
-  -- If AI is frozen, let's blink its color
   if ai_frozen_time > 0 then
     local t = flr(time() * 10)
-    local c = (t % 2 == 0) and 7 or 14 -- blink white/pink
-    -- Draw AI with blinking color
+    local c = (t % 2 == 0) and 7 or 14
     rectfill(ai.x, ai.y, ai.x + 2, ai.y + 12, c)
   else
-    -- normal color for AI
     rectfill(ai.x, ai.y, ai.x + 2, ai.y + 12, 8)
   end
-
-  -- Player is unaffected
   rectfill(player.x, player.y, player.x + 2, player.y + 12, 12)
 end
 
@@ -683,12 +734,10 @@ end
 
 function draw_score()
   print("Score: " .. score, 52, 4, 7)
-
   local base_mult = base_score_multiplier()
   local t = flr(time() * 30)
   local color = (t % 30 < 15) and 12 or 13
   print("(" .. "X" .. base_mult .. ")", 60, 12, color)
-
   if powerup_active and powerup_type == 2 then
     local color2 = (t % 20 < 10) and 10 or 9
     print_centered("POWERUP x2!", 20, color2)
