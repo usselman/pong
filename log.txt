@@ -95,3 +95,16 @@
 [4386738] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
 [4516006] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
 [5081183] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[6081311] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[6105572] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[6122236] exporting html: space-paddle_v_1_0.js 0 1
+[6126977] exporting html: space-paddle_v_1_0.html 1 1
+[6129022] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[6131651] saving gif to: /Users/shirishsarkar/Desktop/pong_2.gif
+[6138811] exporting html: space-paddle_v_1_0.js 0 1
+[6138822] 1. export html
+[6138822] 2. writing /Users/shirishsarkar/_CODE/pong/carts/space-paddle_v_1_0.js
+[7185027] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[7192449] exporting html: space-paddle_v_1_0.js 0 1
+[7192461] 1. export html
+[7192461] 2. writing /Users/shirishsarkar/_CODE/pong/carts/space-paddle_v_1_0.js

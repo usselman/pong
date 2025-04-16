@@ -181,7 +181,8 @@ function _update()
     screen_shake_time -= 1
   end
 
-  poke4(0x5f80, score * 65536)
+  poke2(0x5f80, 0)
+ poke2(0x5f82, score)
   poke2(0x5f84, game_state_pico)
 end
 
@@ -206,7 +207,7 @@ function _draw()
     print_centered("ARROWS TO MOVE", 56, 6)
     print_centered("PRESS X TO START", 66, 6)
     print_centered("VALLEY STUDIOS", 96, 7)
-    print_centered("V0.4", 106, 6)
+    print_centered("V1.0", 106, 6)
   elseif game_state == 1 then
     draw_background()
     draw_flash()
