@@ -89,4 +89,7 @@
  rri....rrii..r_rr__rrrrr_rg.........i.rrr_rrrrrrrrrrr_rrrrr_rrrrrrrrrrr_rr_rr___
  _rrrrr_rrrrrrr_rrrrrr_________rggggg....g.........gg.........rrrrrrrrrr__r_rrrrr
  rrrrrrrrrrrr_rrrrrrrr___rrrrrrrrrrrrrrggg.gggggggggggggggggggggggggggggggggggggg
+ gggg...g.........g.........ii..ii..riiiiiiirrii.........rrii.........
+2025-04-24 17:24:21 /Users/shirishsarkar/_CODE/pong/pong.p8
+ ri.rrr_rrrrr_rrrr_r_r_rrr_r_r_________rrrr_r_rrrrirrr_________rrrrrrrrriiii.iiii
  

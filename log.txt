@@ -13,7 +13,7 @@
 [000000]     08 blit_method 0  // 0 auto  1 software (slower but sometimes more reliable)  2 hardware (can do filtered scaling) 
 [000000]     09 foreground_sleep_ms 2 // number of milliseconds to sleep each frame. Try 10 to conserve battery power
 [000000]     10 background_sleep_ms 10 // number of milliseconds to sleep each frame when running in the background
-[000000]     11 sessions 17 // number of times program has been run
+[000000]     11 sessions 18 // number of times program has been run
 [000000]     12 rmb_key 0 // 0 for none  226 for LALT
 [000000]     13 desktop_path 
 [000000]     14 read_controllers_in_background 0
@@ -48,63 +48,51 @@
 [000000]     43 gfx_grid_lines 0
 [000000]   
 [000000]   codo_system_init
-[000857]   Compiled against SDL version: 2.0.12
-[000857]   Linked against SDL version:   2.0.12
-[000858]   Current video driver: cocoa
-[000858]   codo_reset_timer
-[000858]   codo_gui_init
-[000858]   codo_keys_init
-[000858]   codo_text_init
-[000859]   codo_video_init
-[000859]   codo_mouse_init
-[000859]   codo_joystick_init
-[000859]   Reading controller mappings: /Users/shirishsarkar/_CODE/pong/sdl_controllers.txt
-[000859]   searching for joysticks
-[000859]     found 0 joysticks
-[000859]   ok
-[000859] ok
-[000870] codo_load_pod: /Applications/PICO-8.app/Contents/MacOS/pico8.dat ok 
-[000873] codo_set_screen 128 128 8 100
-[000873]  window size: 640 540
-[001091]   setting filter to nearest (screen_mode 0  back page width: 128)
+[000800]   Compiled against SDL version: 2.0.12
+[000800]   Linked against SDL version:   2.0.12
+[000800]   Current video driver: cocoa
+[000800]   codo_reset_timer
+[000800]   codo_gui_init
+[000800]   codo_keys_init
+[000800]   codo_text_init
+[000801]   codo_video_init
+[000801]   codo_mouse_init
+[000801]   codo_joystick_init
+[000801]   Reading controller mappings: /Users/shirishsarkar/_CODE/pong/sdl_controllers.txt
+[000801]   searching for joysticks
+[000801]     found 0 joysticks
+[000801]   ok
+[000801] ok
+[000815] codo_load_pod: /Applications/PICO-8.app/Contents/MacOS/pico8.dat ok 
+[000818] codo_set_screen 128 128 8 100
+[000818]  window size: 640 540
+[001035]   setting filter to nearest (screen_mode 0  back page width: 128)
   renderer metal:
    flags: 0x0000000E ( |  | )
    texture formats (6): ARGB8888, ABGR8888, YV12, IYUV, 0x3231564e, 0x3132564e
    max texture size: 16384x16384
-[001100]  desktop size: 3440 1440
-[001100] ok
-[001121] codo_sound_init mix_buffer_size: 1024
-[001121] codo_sound_init
-[001121] SDL_INIT_AUDIO ok
-[001302] SDL_OpenAudio ok
-[001302]  freq:22050
+[001043]  desktop size: 3440 1440
+[001043] ok
+[001065] codo_sound_init mix_buffer_size: 1024
+[001065] codo_sound_init
+[001065] SDL_INIT_AUDIO ok
+[001255] SDL_OpenAudio ok
+[001255]  freq:22050
  channels:1
-[001302] Built-in audio drivers: 0 coreaudio 1 disk 2 dummy
-[001302] Current audio driver: coreaudio
-[001302] splore_init
-[001303] could not load favourites file: /Users/shirishsarkar/_CODE/pong/favourites.txt
-[003557] loading /Users/shirishsarkar/_CODE/pong/pong.p8
-[005235] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[3859505] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[3884948] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[3969487] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[4118204] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[4148184] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[4167913] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[4380067] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[4386738] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[4516006] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[5081183] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[6081311] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[6105572] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[6122236] exporting html: space-paddle_v_1_0.js 0 1
-[6126977] exporting html: space-paddle_v_1_0.html 1 1
-[6129022] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[6131651] saving gif to: /Users/shirishsarkar/Desktop/pong_2.gif
-[6138811] exporting html: space-paddle_v_1_0.js 0 1
-[6138822] 1. export html
-[6138822] 2. writing /Users/shirishsarkar/_CODE/pong/carts/space-paddle_v_1_0.js
-[7185027] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
-[7192449] exporting html: space-paddle_v_1_0.js 0 1
-[7192461] 1. export html
-[7192461] 2. writing /Users/shirishsarkar/_CODE/pong/carts/space-paddle_v_1_0.js
+[001255] Built-in audio drivers: 0 coreaudio 1 disk 2 dummy
+[001255] Current audio driver: coreaudio
+[001255] splore_init
+[001255] could not load favourites file: /Users/shirishsarkar/_CODE/pong/favourites.txt
+[003493] loading /Users/shirishsarkar/_CODE/pong/pong.p8
+[005169] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[013979] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[044070] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[058044] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[069711] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[118104] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[154745] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[202724] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[246358] exporting html: space-paddle_042425.js 0 1
+[246369] 1. export html
+[246369] 2. writing /Users/shirishsarkar/_CODE/pong/carts/space-paddle_042425.js
+[250559] launch: [open "/Users/shirishsarkar/_CODE/pong/carts/"] result: 0

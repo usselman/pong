@@ -61,7 +61,7 @@ flash_time     = 0     -- frames for a short “screen flash”
 -- SCREEN SHAKE & PARTICLE VARIABLES
 --------------------------
 screen_shake_time = 0       -- Duration (in frames) of the screen shake effect
-screen_shake_magnitude = 2  -- Maximum pixel offset for shake
+screen_shake_magnitude = 0.01  -- Maximum pixel offset for shake
 hit_particles = {}          -- Table to hold hit particles
 
 --------------------------
@@ -192,8 +192,8 @@ end
 function _draw()
   -- Apply screen shake via random camera offset if active.
   if screen_shake_time > 0 then
-    local shake_x = flr(rnd(screen_shake_magnitude * 2 + 1)) - screen_shake_magnitude
-    local shake_y = flr(rnd(screen_shake_magnitude * 2 + 1)) - screen_shake_magnitude
+    local shake_x = (flr(rnd(screen_shake_magnitude * 2 + 1)) - screen_shake_magnitude)/2
+    local shake_y = (flr(rnd(screen_shake_magnitude * 2 + 1)) - screen_shake_magnitude)/2
     camera(shake_x, shake_y)
   else
     camera(0, 0)
@@ -383,7 +383,7 @@ function bounce_off_paddle(paddle)
     end
     ball.x = ai.x - 3
   end
-  screen_shake_time = 6  -- trigger screen shake
+  screen_shake_time = 2  -- trigger screen shake
   spawn_hit_particles(ball.x + 1, ball.y + 1)
 end
 
