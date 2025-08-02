@@ -32,6 +32,8 @@ rally_count = 0
 start_speed = 2.25
 score = 0
 
+PI = 3.1415927
+
 --------------------------
 -- POWERUP STATES
 --------------------------
@@ -50,6 +52,12 @@ powerups = {}      -- holds active powerup bubbles
 
 -- Score threshold for spawning the next powerup.
 next_powerup_score = 1
+
+-- SIZE POWERUP VARIABLES
+size_active         = false    -- is the size powerup running?
+size_timer          = 0        -- frames remaining
+size_duration       = 360      -- 10 s at 30 FPS
+size_flash_thresh   = 60       -- last 2 s will flash faster
 
 --------------------------
 -- FREEZE AI LOGIC
@@ -75,7 +83,9 @@ slow_factor = 1        -- effective multiplier (1 normally, 0.5 while slowed)
 -- SCORING MULTIPLIER  --
 --------------------------
 function base_score_multiplier()
-  local mult = 1 + flr(score/50)
+  -- local mult = 1 + flr(score/50)
+  -- no more multiplier 
+  local mult = 1
   return min(mult,10)
 end
 
@@ -130,6 +140,14 @@ function _update()
   else
     slow_factor = 1
   end
+
+  -- size powerup countdown
+if size_active then
+  size_timer -= 1
+  if size_timer <= 0 then
+    size_active = false
+  end
+end
 
   if game_state == 0 then
     update_background()
@@ -203,11 +221,16 @@ function _draw()
 
   if game_state == 0 then
     draw_background()
-    wave_print("s p a c e p a d d l e", 22, 36)
-    print_centered("ARROWS TO MOVE", 56, 6)
-    print_centered("PRESS X TO START", 66, 6)
+    -- wave_print("s p a c e p a d d l e", 22, 36)
+    local title_1 = {64, 65, 66, 67, 68}
+    wave_print_sprite(title_1, 30, 40, 14)
+    local title_2 = {65, 66, 80, 80, 81, 68}
+    wave_print_sprite(title_2, 14, 60, 18)
+
+    -- print_centered("ARROWS TO MOVE", 56, 6)
+    -- print_centered("PRESS X TO START", 66, 6)
     print_centered("VALLEY STUDIOS", 96, 7)
-    print_centered("V1.0", 106, 6)
+    print_centered("V1.1", 106, 6)
   elseif game_state == 1 then
     draw_background()
     draw_flash()
@@ -247,6 +270,89 @@ function wave_print(text, x, y)
     print(letter, x + (i - 1) * 4, y + wave_offset, col)
   end
 end
+
+-- WAVE-PRINT SPRITES: same as wave_print, but draws spr()
+-- sprites : an array of sprite IDs
+-- x, y    : starting position
+-- spacing : optional horizontal gap (defaults to 8)
+-- function wave_print_sprite(sprites, x, y, spacing)
+--   local amplitude = 2.5
+--   local speed     = 1
+--   spacing = spacing or 8
+
+--   for i, id in ipairs(sprites) do
+--     -- 1) wave offset
+--     local t       = time() * speed + i * 0.8
+--     local wave_y  = y + sin(t) * amplitude
+
+--     -- 2) cycling outline color ∈ [8..15]
+--     local hue = flr((sin(time() * 0.5 + i * 0.3) + 1) * 4) + 8
+
+--     -- 3) remap your grey-line (7) → hue, draw sprite, then reset palette
+--     pal(7, hue)
+--     spr(id, x + (i - 1) * spacing, wave_y)
+--     pal()  -- reset palette
+
+--     -- 4) draw a few tiny particles around the letter
+--     for j = 1, 3 do
+--       local ang  = rnd(1) * 2 * 3.14159
+--       local dist = rnd(30)
+--       local px   = (x + (i - 1) * spacing) + 4 + cos(ang) * dist * 5
+--       local py   = wave_y +           4 + sin(ang) * dist * 5
+--       pset(px, py, flr(rnd(16)))
+--     end
+--   end
+-- end
+
+function wave_print_sprite(sprites, x, y, spacing)
+  local amplitude = 2.5
+  local speed     = 1
+  spacing = spacing or 16   -- 8px * 2 scale
+
+  -- drip settings
+  local drip_speed = 0.05    -- vertical speed
+  local drip_len   = 100      -- pixels before restart
+  local drip_count = 50       -- number of simultaneous drops per letter
+
+  for i, id in ipairs(sprites) do
+    -- 1) wave offset for letter
+    local t      = time() * speed + i * 0.8
+    local wave_y = y + sin(t) * amplitude
+
+    -- 2) cycling outline color ∈ [10..14]
+    local hue = 10 + flr((sin(t * 0.5) + 1) * 2)
+
+    -- 3) draw scaled sprite with palette swap
+    pal(7, hue)
+    local sx = (id % 16) * 8
+    local sy = flr(id / 16) * 8
+    sspr(sx, sy, 8, 8,
+         x + (i - 1) * spacing,
+         wave_y,
+         16, 16)
+    pal()
+
+    -- 4) drips: cascade straight down, fade from light gray(6) → dark gray(5) → black(0)
+    -- for j = 1, drip_count do
+    --   local drip_t = time()/20 * drip_speed + i * 0.002 + j * 4
+    --   local dy    = (drip_t % drip_len)
+    --   local px    = x + (i - 1) * spacing + 8 + (rnd(1) - 0.5) * 2
+    --   local py    = wave_y + 16 + dy
+
+    --   -- fraction of journey [0..1]
+    --   local prog = dy / drip_len / 100
+    --   local col  = prog < 0.33 and 6
+    --              or prog < 0.66 and 5
+    --              or 0
+
+    --   pset(px, py, col)
+    -- end
+  end
+end
+
+
+
+
 
 -------------------------------------
 -- UPDATE HELPERS: PLAYER, AI, BALL --
@@ -360,8 +466,14 @@ function round(n)
   end
 end
 
-function collides_with_paddle(x, y, pad)
-  return (x + 2 > pad.x and x < pad.x + 2 and y + 2 > pad.y and y < pad.y + 12)
+function collides_with_paddle(x,y,pad)
+  local left  = pad.x
+  local right = pad.x + 2
+  if pad==player and size_active then
+    left  -= 3
+    right += 3
+  end
+  return (x+2 > left and x < right and y+2 > pad.y and y < pad.y+12)
 end
 
 -------------------------------------
@@ -604,15 +716,32 @@ function spawn_powerup_bubble()
     p.y = 16 + rnd(96)
   end
   local r = rnd(1)
-  if r < 0.25 then
+  if r < 0.2 then
     p.powerup_spr = 2  -- spawn extra balls powerup
-  elseif r < 0.5 then
+  elseif r < 0.4 then
     p.powerup_spr = 3  -- x2 score multiplier
-  elseif r < 0.75 then
+  elseif r < 0.6 then
     p.powerup_spr = 4  -- freeze AI
+  elseif r < 0.8 then
+    p.powerup_spr = 5  -- slow down ball
   else
-    p.powerup_spr = 5  -- slow (halves movement speeds)
+    p.powerup_spr = 7  -- paddle increase size
   end
+
+  -- spawn a few particles around the bubble
+  p.particles = {}
+  for i=1,4 do
+    local ang = rnd(1)*2*PI
+    local spd = 0.5 + rnd(0.5)
+    add(p.particles, {
+      x   = p.x,
+      y   = p.y,
+      dx  = cos(ang)*spd,
+      dy  = sin(ang)*spd,
+      life= 35
+    })
+  end
+
   add(powerups, p)
   next_powerup_score += 1
 end
@@ -630,6 +759,14 @@ function update_powerups()
     if p.life <= 0 then
       del(powerups, p)
     end
+    -- update its particles
+    for j=#p.particles,1,-1 do
+      local q = p.particles[j]
+      q.x   += q.dx
+      q.y   += q.dy
+      q.life-=1
+      if q.life<=0 then del(p.particles,q) end
+    end
   end
 end
 
@@ -637,6 +774,15 @@ function draw_powerups()
   for p in all(powerups) do
     spr(p.spr, p.x - 4, p.y - 4)
     spr(p.powerup_spr, p.x - 4, p.y - 4)
+
+    -- draw the particles
+    for q in all(p.particles) do
+      -- fade from light gray (6) → dark gray (5) → black (0)
+      local c = q.life>8 and 6
+              or q.life>4 and 5
+              or 0
+      circfill(q.x, q.y, 1, c)
+    end
   end
 end
 
@@ -672,6 +818,11 @@ function spawn_powerup(s)
     flash_time = 6
     slow_active = true
     slow_timer = 300
+  elseif s==7 then
+    -- size up!
+    sfx(8)
+    size_active = true
+    size_timer  = size_duration
   end
 end
 
@@ -719,6 +870,7 @@ function draw_field()
 end
 
 function draw_paddles()
+  -- AI paddle (unchanged)
   if ai_frozen_time > 0 then
     local t = flr(time() * 10)
     local c = (t % 2 == 0) and 7 or 14
@@ -726,8 +878,29 @@ function draw_paddles()
   else
     rectfill(ai.x, ai.y, ai.x + 2, ai.y + 12, 8)
   end
-  rectfill(player.x, player.y, player.x + 2, player.y + 12, 12)
+
+  -- PLAYER paddle, with optional size power-up
+  -- woff = extra half-width when size is active
+  local woff = size_active and 4 or 0
+  local x0, x1 = player.x, player.x + 2
+  local y0, y1 = player.y - woff, player.y + 12 + woff
+
+  -- choose color: base is 12, flash color is 7 (white)
+  local base_col  = 12
+  local flash_col = 7
+  local col
+
+  if size_active then
+    -- blink slowly until the last size_flash_thresh frames, then faster
+    local freq = (size_timer > size_flash_thresh) and 10 or 30
+    col = (flr(time() * freq) % 2 == 0) and flash_col or base_col
+  else
+    col = base_col
+  end
+
+  rectfill(x0, y0, x1, y1, col)
 end
+
 
 function draw_ball()
   rectfill(ball.x, ball.y, ball.x + 2, ball.y + 2, 10)
@@ -735,13 +908,15 @@ end
 
 function draw_score()
   print("Score: " .. score, 52, 4, 7)
-  local base_mult = base_score_multiplier()
+  -- local base_mult = base_score_multiplier()
   local t = flr(time() * 30)
-  local color = (t % 30 < 15) and 12 or 13
-  print("(" .. "X" .. base_mult .. ")", 60, 12, color)
+  -- local color = (t % 30 < 15) and 12 or 13
+  -- print("(" .. "X" .. base_mult .. ")", 60, 12, color)
   if powerup_active and powerup_type == 2 then
     local color2 = (t % 20 < 10) and 10 or 9
-    print_centered("POWERUP x2!", 20, color2)
+    -- print_centered("POWERUP x2!", 20, color2)
+    -- putting powerup instead of base mult
+    print_centered("POWERUP: x2!", 14, color2)
   end
 end
 

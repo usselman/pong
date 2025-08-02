@@ -93,3 +93,18 @@
 2025-04-24 17:24:21 /Users/shirishsarkar/_CODE/pong/pong.p8
  ri.rrr_rrrrr_rrrr_r_r_rrr_r_r_________rrrr_r_rrrrirrr_________rrrrrrrrriiii.iiii
  
+2025-08-02 00:10:40 /Users/shirishsarkar/_CODE/pong/pong.p8
+ rrr_________icgggggggggggggg.........rri.iiii.........rrrrrrrrrrrrr_________rrrr
+ rrr__r_rrrrrrrrrrrrr_rrr_r_rr_ri.........rrrrrrrrrrrr_rr_rrrrrrrrrr_rrr_rrrrrrrr
+ r_rr__rrrrrr_r_rrri.........rrrrrrrrrrrrrr_rrrrrrr_rrrrrrrrrrrrrrrrrri.........r
+ i.........gggggggggggggg.gggggggggggggggggggggggggggggggggggggggggg.gggggggggggg
+ .ggggggggggggggggg........g.........gg.gg..r_________r_____r____r____r___r_r___r
+ __r_rr_r_________r_______r___r____rr___r_r____rr_rigggggggggggggggggggggggggggr_
+ __iggg..r__r________r__rrggggiggggggrggggggggggggggggggr_i.r_ggggggggr___iggr_gg
+ .........rggg.........igggggggiii.........r___r_rrr__rii.igggggggriggggggggggggi
+ gggggggggrggggggrgrgggggrgig.........rii........riri.....i..gi.........gri...r__
+ r_rr___rrrr___r___rrr__rr_r__rrrrrrr_rrrrrr_rrrrrrrrrrrriiiiir__gggggggggggggr__
+ __ggggggggrggrigggggggggr_rgggggggggggggggrggggggggggggrgggr___gg.ggggggrgggr_gg
+ ggggggr__ggggr_rrrrrriii.......rrr_rrr_rrrrr_i.rrr_r_rrrrr__rrr_rigi.......rr_g.
+ ...gri.gr___ir_____rrrr__r__rrr_r_r_r_r___r_r_r___r____rrr_r_r_rr_r___r___rrrrrr
+ 
