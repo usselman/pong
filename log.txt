@@ -220,3 +220,9 @@
 [8391581] exporting html: game.js 0 1
 [8391590] 1. export html
 [8391590] 2. writing /Users/shirishsarkar/_CODE/pong/carts/game.js
+[8452536] exporting html: game.js 0 1
+[8452550] 1. export html
+[8452550] 2. writing /Users/shirishsarkar/_CODE/pong/carts/game.js
+[8803832] exporting html: game.js 0 1
+[8803850] 1. export html
+[8803850] 2. writing /Users/shirishsarkar/_CODE/pong/carts/game.js
