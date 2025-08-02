@@ -205,3 +205,18 @@
 [4502291] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
 [4513949] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
 [4526117] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[4785742] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[4789498] exporting html: game.js 0 1
+[4789520] 1. export html
+[4789520] 2. writing /Users/shirishsarkar/_CODE/pong/carts/game.js
+[5258076] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[5465047] run_cart current_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_filename: /Users/shirishsarkar/_CODE/pong/pong.p8 running_cart_lid: 
+[5477359] exporting html: game.js 0 1
+[5477369] 1. export html
+[5477369] 2. writing /Users/shirishsarkar/_CODE/pong/carts/game.js
+[5564258] exporting html: game.js 0 1
+[5564265] 1. export html
+[5564265] 2. writing /Users/shirishsarkar/_CODE/pong/carts/game.js
+[8391581] exporting html: game.js 0 1
+[8391590] 1. export html
+[8391590] 2. writing /Users/shirishsarkar/_CODE/pong/carts/game.js

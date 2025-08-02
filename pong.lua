@@ -92,7 +92,7 @@ end
 function total_score_multiplier()
   local base_mult = base_score_multiplier()
   if powerup_active and powerup_type == 2 then
-    return base_mult * 2
+    return base_mult * 4
   end
   return base_mult
 end
@@ -427,7 +427,7 @@ function update_ball()
         break
       elseif newX > 136 then
         sfx(3)
-        score += 3 * total_score_multiplier()
+        score += 6 * total_score_multiplier()
         rally_count = 0
         start_serve()
         return
@@ -916,7 +916,7 @@ function draw_score()
     local color2 = (t % 20 < 10) and 10 or 9
     -- print_centered("POWERUP x2!", 20, color2)
     -- putting powerup instead of base mult
-    print_centered("POWERUP: x2!", 14, color2)
+    print_centered("POWERUP: x4!", 12, color2)
   end
 end
 
